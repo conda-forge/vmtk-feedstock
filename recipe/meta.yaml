@@ -14,7 +14,7 @@ source:
 build:
   number: 2
   skip:
-    - True  # [py<=36 or osx]
+    - True  # [py<=36 or win or linux]
 
 requirements:
   build:
@@ -64,7 +64,7 @@ test:
     - pytest
     - git
   commands:
-    - bash test.sh  # [linux]
+    - bash test.sh  # [not win]
     - test.bat  # [win]
 
 
