@@ -12,7 +12,7 @@ source:
   sha256: 1b2236981565c24c59807814c5315b4a0406dc15cb93625ad212a23cc52a2d3f
 
 build:
-  number: 1
+  number: 2
   skip:
     - True  # [py<=36 or osx]
 
@@ -35,9 +35,9 @@ requirements:
 
   host:
     - python
-    - vtk {{ vtk_version }}
-    - libitk {{ itk_version }}
-    - libitk-devel {{ itk_version }}
+    - vtk
+    - libitk
+    - libitk-devel
     - tbb-devel >=2021.3
     - xorg-libxfixes  # [linux]
     - llvm
@@ -45,8 +45,8 @@ requirements:
   run:
     - python
     - future 
-    - vtk {{ vtk_version }}
-    - libitk {{ itk_version }}
+    - vtk
+    - libitk
     - llvm
     - joblib
     - numpy 
