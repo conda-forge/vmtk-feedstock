@@ -1,0 +1,28 @@
+From 514803ab5cbcc516d5f102abc58565752ee31dcc Mon Sep 17 00:00:00 2001
+From: Ramtin Gharleghi <gharleghi@gmail.com>
+Date: Wed, 26 Jan 2022 21:21:39 +1100
+Subject: [PATCH] OSX_CXX_Compatibility
+
+---
+ vtkVmtk/CMakeLists.txt | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/vtkVmtk/CMakeLists.txt b/vtkVmtk/CMakeLists.txt
+index 6844bd4..556c9e1 100644
+--- a/vtkVmtk/CMakeLists.txt
++++ b/vtkVmtk/CMakeLists.txt
+@@ -37,11 +37,6 @@ configure_file(
+   ${VTK_VMTK_BINARY_DIR}/vtkvmtkConfigure.h
+   )                                                                                                  
+ 
+-if(APPLE)
+-  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib")
+-  set(CMAKE_EXE_LINKER_FLAGS "-Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib")
+-endif()
+-
+ option(VTK_VMTK_BUILD_TETGEN "Build TetGen and TetGen wrapper. Check TetGen license before you activate this." ON)
+ 
+ option(VTK_VMTK_BUILD_STREAMTRACER "Build static temporal stream tracer." ON)
+-- 
+2.31.1.windows.1
+

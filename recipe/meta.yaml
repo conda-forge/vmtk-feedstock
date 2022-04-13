@@ -8,13 +8,15 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/927331ad752265199390eabbbf2e07cdc2b4bcc6.zip
-  sha256: 1b2236981565c24c59807814c5315b4a0406dc15cb93625ad212a23cc52a2d3f
+  url: https://github.com/vmtk/vmtk/archive/27e3784dde5c2e8ad6a4ef21edfd50c72763fcdf.zip
+  sha256: 069ed34a3d9c971389c7291cec04645a616ab760567946e127a4b5f1d63195a1
+  patches:
+    - 0001-OSX_CXX_Compatibility.patch
 
 build:
   number: 2
   skip:
-    - True  # [py<=36 or win or linux]
+    - True  # [py<=36 or (osx and py>39)]
 
 requirements:
   build:
@@ -28,25 +30,25 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost 1.74  # [linux]
+    - boost 1.74  # [not win]
     - git
     - ninja
     - setuptools  
 
   host:
     - python
-    - vtk
-    - libitk
-    - libitk-devel
-    - tbb-devel >=2021.3
+    - vtk {{ vtk_version }}
+    - libitk {{ itk_version }}
+    - libitk-devel {{ itk_version }}
+    - tbb-devel >=2021.3.0
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
   run:
     - python
     - future 
-    - vtk
-    - libitk
+    - vtk {{ vtk_version }}
+    - libitk {{ itk_version }}
     - llvm
     - joblib
     - numpy 
@@ -60,13 +62,14 @@ test:
   files:
     - test.sh
     - test.bat
+    - importtests.py
   requires:
     - pytest
     - git
   commands:
+    - python importtests.py
     - bash test.sh  # [not win]
     - test.bat  # [win]
-
 
 about:
   description: |
