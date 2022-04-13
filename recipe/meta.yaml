@@ -12,6 +12,7 @@ source:
   sha256: 069ed34a3d9c971389c7291cec04645a616ab760567946e127a4b5f1d63195a1
   patches:
     - 0001-OSX_CXX_Compatibility.patch
+    - 0002-vtkAddon-temp-fix.patch
 
 build:
   number: 2

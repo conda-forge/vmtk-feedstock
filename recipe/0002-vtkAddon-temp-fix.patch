@@ -1,0 +1,21 @@
+--- a/CMake/CMakeLists.txt	2022-04-13 10:56:32.000000000 +0100
++++ b/CMake/CMakeLists.txt	2022-04-13 10:58:36.000000000 +0100
+@@ -1,7 +1,7 @@
+ # Download vtkAddon CMake modules to support VTK python wrapping
+-set(vtkAddon_version "8b5c4b2336a4d2d2aaafe87db3642b5302ddcaa5")
++set(vtkAddon_version "3bbd7aec4d3413dff9343ada8ad561accf6a01ec")
+ 
+-set(vtkMacroKitPythonWrap.cmake_expected_hash "4470613601f97d36221a7af072731475d06f03d4eb19f550d230bc468264088b")
++set(vtkMacroKitPythonWrap.cmake_expected_hash "d6c522ed52af8af084fd4c65ffd4303d3768d019fd0e9c8426a4bbc98d26aa47")
+ set(vtkWrapHierarchy.cmake_expected_hash "ca3ea938ae7eb7c94da8a99d1c45556de5c0562ab91f7b2a5c5640e50f005a88")
+ set(vtkWrapPython.cmake_expected_hash "4bdd1adcd02b7db393c32ae902f208389fb80141584e5b68f7668dd379f62134")
+ set(vtkWrapperInit.data.in_expected_hash "3e840679603eb4a0d425c1244828729cb271f33a081c5ac2e0547aa747bbec5d")
+@@ -14,7 +14,7 @@
+   )
+   set(dest_file "${CMAKE_CURRENT_BINARY_DIR}/${filename}")
+   set(expected_hash "${${filename}_expected_hash}")
+-  set(url "https://raw.githubusercontent.com/Slicer/vtkAddon/${vtkAddon_version}/CMake/${filename}")
++  set(url "https://raw.githubusercontent.com/rupertnash/vtkAddon/${vtkAddon_version}/CMake/${filename}")
+   if(NOT EXISTS ${dest_file})
+     file(DOWNLOAD ${url} ${dest_file} EXPECTED_HASH SHA256=${expected_hash})
+   else()
