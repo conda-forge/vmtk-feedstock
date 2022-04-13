@@ -77,6 +77,6 @@ if [[ "${target_platform}" == osx-* ]]; then
     -DCMAKE_OSX_DEPLOYMENT_TARGET="10.9" \
 	-DBUILD_DOCUMENTATION:BOOL=OFF \
 	-DVTK_VMTK_CONTRIB:BOOL=OFF \
-	-DCMAKE_MACOSX_RPATH:BOOL=0
+	-DCMAKE_MACOSX_RPATH:BOOL=ON
 fi
-ninja install 
+ninja install
