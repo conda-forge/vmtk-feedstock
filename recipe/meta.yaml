@@ -17,7 +17,7 @@ source:
 build:
   number: 2
   skip:
-    - True  # [py<=36 or (osx and py>39)]
+    - True  # [py<=37 or (osx and py>39)]
 
 requirements:
   build:
@@ -66,6 +66,7 @@ test:
     - importtests.py
   requires:
     - pytest
+    - pytest-timeout
     - git
   commands:
     - python importtests.py
