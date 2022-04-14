@@ -8,8 +8,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/27e3784dde5c2e8ad6a4ef21edfd50c72763fcdf.zip
-  sha256: 069ed34a3d9c971389c7291cec04645a616ab760567946e127a4b5f1d63195a1
+  url: https://github.com/vmtk/vmtk/archive/8489c115017eaf0d558a1561dddc1424ddab7c0f.zip
+  sha256: 8446106e7486ffc5e74e3c574149cebdfbfd476e0ee3cd02fd2407564c3c4211
   patches:
     - 0001-OSX_CXX_Compatibility.patch
     - 0002-vtkAddon-temp-fix.patch
@@ -17,7 +17,7 @@ source:
 build:
   number: 2
   skip:
-    - True  # [py<=37 or (osx and py>39)]
+    - True  # [py<=36]
 
 requirements:
   build:
