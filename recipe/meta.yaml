@@ -8,11 +8,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/8489c115017eaf0d558a1561dddc1424ddab7c0f.zip
-  sha256: 8446106e7486ffc5e74e3c574149cebdfbfd476e0ee3cd02fd2407564c3c4211
+  url: https://github.com/vmtk/vmtk/archive/3b4bf968abb333416b54443c350728ec09436165.zip
+  sha256: 998a99f5080c95a20c9c063922a52b9cd353bc3f3583cf897323f0a7f003a9b5
   patches:
     - 0001-OSX_CXX_Compatibility.patch
     - 0002-vtkAddon-temp-fix.patch
+    - 0003-DisableJoblibOnOSX.patch  # [osx]
 
 build:
   number: 2
