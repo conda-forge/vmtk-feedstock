@@ -16,7 +16,7 @@ source:
     - 0003-DisableJoblibOnOSX.patch  # [osx]
 
 build:
-  number: 3
+  number: 4
   skip:
     - True  # [py<=36]
 
