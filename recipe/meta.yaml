@@ -8,13 +8,17 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/927331ad752265199390eabbbf2e07cdc2b4bcc6.zip
-  sha256: 1b2236981565c24c59807814c5315b4a0406dc15cb93625ad212a23cc52a2d3f
+  url: https://github.com/vmtk/vmtk/archive/3b4bf968abb333416b54443c350728ec09436165.zip
+  sha256: 998a99f5080c95a20c9c063922a52b9cd353bc3f3583cf897323f0a7f003a9b5
+  patches:
+    - 0001-OSX_CXX_Compatibility.patch
+    - 0002-vtkAddon-temp-fix.patch
+    - 0003-DisableJoblibOnOSX.patch  # [osx]
 
 build:
-  number: 2
+  number: 3
   skip:
-    - True  # [py<=36 or osx]
+    - True  # [py<=36]
 
 requirements:
   build:
@@ -28,25 +32,25 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost 1.74  # [linux]
+    - boost 1.74  # [not win]
     - git
     - ninja
     - setuptools  
 
   host:
     - python
-    - vtk
-    - libitk
-    - libitk-devel
-    - tbb-devel >=2021.3
+    - vtk {{ vtk_version }}
+    - libitk {{ itk_version }}
+    - libitk-devel {{ itk_version }}
+    - tbb-devel >=2021.3.0
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
   run:
     - python
     - future 
-    - vtk
-    - libitk
+    - vtk {{ vtk_version }}
+    - libitk {{ itk_version }}
     - llvm
     - joblib
     - numpy 
@@ -60,13 +64,15 @@ test:
   files:
     - test.sh
     - test.bat
+    - importtests.py
   requires:
     - pytest
+    - pytest-timeout
     - git
   commands:
-    - bash test.sh  # [linux]
+    - python importtests.py
+    - bash test.sh  # [not win]
     - test.bat  # [win]
-
 
 about:
   description: |
