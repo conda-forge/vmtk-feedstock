@@ -8,15 +8,16 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/3b4bf968abb333416b54443c350728ec09436165.zip
-  sha256: 998a99f5080c95a20c9c063922a52b9cd353bc3f3583cf897323f0a7f003a9b5
+  url: https://github.com/vmtk/vmtk/archive/30b0fdad5674d6f134e8a8b601bcef7917671b0a.zip
+  sha256: e9f550c23c4413850cfecff92c483f27794e594bc30c55a5fa7a3960eb96d26c
   patches:
     - 0001-OSX_CXX_Compatibility.patch
     - 0002-vtkAddon-temp-fix.patch
     - 0003-DisableJoblibOnOSX.patch  # [osx]
+    - 0004-Bugfixes.patch  
 
 build:
-  number: 4
+  number: 5
   skip:
     - True  # [py<=36]
 
@@ -42,7 +43,8 @@ requirements:
     - vtk {{ vtk_version }}
     - libitk {{ itk_version }}
     - libitk-devel {{ itk_version }}
-    - tbb-devel >=2021.3.0
+    - hdf5 1.12.1  # [win]
+    - tbb-devel
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
