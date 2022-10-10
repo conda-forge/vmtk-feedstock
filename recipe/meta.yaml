@@ -17,7 +17,7 @@ source:
     - 0004-Bugfixes.patch  
 
 build:
-  number: 6
+  number: 7
   skip:
     - True  # [py<=36]
 
