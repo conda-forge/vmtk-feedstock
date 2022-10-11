@@ -2,7 +2,7 @@
 {% set version = "1.5.0" %}
 {% set vtk_version = "9.1.0" %}
 {% set itk_version = "5.2.1" %}
-{% set boostversion = data.get('version') %}
+
 
 
 package:
