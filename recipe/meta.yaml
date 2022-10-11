@@ -35,8 +35,7 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost 1.74  # [(not win and py==310) or (linux and py==37)]
-    - boost 1.78  # [(not win and (py==38 or py==39)) or (osx and py==37)]
+    - boost 1.78  # [not win]
     - git
     - ninja
     - setuptools  
