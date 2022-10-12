@@ -45,7 +45,6 @@ requirements:
     - vtk {{ vtk_version }}
     - libitk {{ itk_version }}
     - libitk-devel {{ itk_version }}
-    - hdf5 1.12.1  # [win]
     - tbb-devel
     - xorg-libxfixes  # [linux]
     - llvm
