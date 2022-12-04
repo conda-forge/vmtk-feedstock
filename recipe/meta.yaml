@@ -3,6 +3,8 @@
 {% set vtk_version = "9.1.0" %}
 {% set itk_version = "5.2.1" %}
 
+
+
 package:
   name: {{ name|lower }}
   version: {{ version }}
@@ -17,9 +19,7 @@ source:
     - 0004-Bugfixes.patch  
 
 build:
-  number: 6
-  skip:
-    - True  # [py<=36]
+  number: 7
 
 requirements:
   build:
@@ -33,7 +33,7 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost 1.74  # [not win]
+    - boost      # [not win]
     - git
     - ninja
     - setuptools  
@@ -43,11 +43,11 @@ requirements:
     - vtk {{ vtk_version }}
     - libitk {{ itk_version }}
     - libitk-devel {{ itk_version }}
-    - hdf5 1.12.1  # [win]
     - tbb-devel
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
+    - boost      # [not win]
   run:
     - python
     - future 
@@ -57,6 +57,7 @@ requirements:
     - joblib
     - numpy 
     - h5py
+    - boost      # [not win]
     
 
 
