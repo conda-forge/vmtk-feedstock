@@ -20,8 +20,6 @@ source:
 
 build:
   number: 7
-  skip:
-    - True  # [py<=36]
 
 requirements:
   build:
@@ -35,7 +33,7 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost 1.78  # [not win]
+    - boost      # [not win]
     - git
     - ninja
     - setuptools  
@@ -49,6 +47,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
+    - boost      # [not win]
   run:
     - python
     - future 
@@ -58,6 +57,7 @@ requirements:
     - joblib
     - numpy 
     - h5py
+    - boost      # [not win]
     
 
 
