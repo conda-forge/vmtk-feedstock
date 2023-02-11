@@ -40,7 +40,7 @@ requirements:
 
   host:
     - python
-    - vtk {{ vtk_version }}
+    - vtk 
     - libitk {{ itk_version }}
     - libitk-devel {{ itk_version }}
     - tbb-devel
@@ -51,7 +51,7 @@ requirements:
   run:
     - python
     - future 
-    - vtk {{ vtk_version }}
+    - vtk
     - libitk {{ itk_version }}
     - llvm
     - joblib
