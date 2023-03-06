@@ -1,6 +1,6 @@
 mkdir build
 cd build
-
+python -m pip list
 
 set PYTHON_MAJOR_VERSION=%PY_VER:~0,1%
 
@@ -49,4 +49,12 @@ cmake .. -LAH -G "Ninja" ^
 if errorlevel 1 exit 1
 
 ninja install
+if errorlevel 1 exit 1
+
+set egg_info=%SP_DIR%\vmtk-%PKG_VERSION%.egg-info
+echo>%egg_info% Metadata-Version: 2.1
+echo>>%egg_info% Version: %PKG_VERSION%
+echo>>%egg_info% Summary: vmtk is a collection of libraries and tools for 3D reconstruction, geometric analysis, mesh generation and surface data analysis for image-based modeling of blood vessels. 
+echo>>%egg_info% Platform: UNKNOWN
+
 if errorlevel 1 exit 1
