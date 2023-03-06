@@ -1,6 +1,5 @@
 mkdir build
 cd build
-python -m pip list
 
 set PYTHON_MAJOR_VERSION=%PY_VER:~0,1%
 
