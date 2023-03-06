@@ -80,3 +80,11 @@ if [[ "${target_platform}" == osx-* ]]; then
 	-DCMAKE_MACOSX_RPATH:BOOL=ON
 fi
 ninja install
+
+cat > $SP_DIR/vmtk-$PKG_VERSION.egg-info <<FAKE_EGG
+Metadata-Version: 2.1
+Name: vmtk
+Version: $PKG_VERSION
+Summary: vmtk is a collection of libraries and tools for 3D reconstruction, geometric analysis, mesh generation and surface data analysis for image-based modeling of blood vessels. 
+Platform: UNKNOWN
+FAKE_EGG

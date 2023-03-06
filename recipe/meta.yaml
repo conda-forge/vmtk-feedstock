@@ -19,7 +19,7 @@ source:
     - 0004-Bugfixes.patch  
 
 build:
-  number: 9
+  number: 10
 
 requirements:
   build:
@@ -72,6 +72,7 @@ test:
     - pytest
     - pytest-timeout
     - git
+    - pip
   commands:
     - python importtests.py
     - bash test.sh  # [not win]
