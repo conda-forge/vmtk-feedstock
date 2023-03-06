@@ -1,11 +1,11 @@
-About vmtk
-==========
+About vmtk-feedstock
+====================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/vmtk-feedstock/blob/main/LICENSE.txt)
 
 Home: www.vmtk.org
 
 Package license: BSD-2-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/vmtk-feedstock/blob/main/LICENSE.txt)
 
 Summary: vmtk - the Vascular Modeling Toolkit. See www.vmtk.org/ for details.
 
