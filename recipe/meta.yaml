@@ -1,6 +1,4 @@
 {% set version = "1.5.0" %}
-{% set vtk_version = "9.2.6" %}
-{% set itk_version = "5.2.1" %}
 
 
 
@@ -40,9 +38,9 @@ requirements:
 
   host:
     - python
-    - vtk {{ vtk_version }}
-    - libitk {{ itk_version }}
-    - libitk-devel {{ itk_version }}
+    - vtk
+    - libitk
+    - libitk-devel
     - tbb-devel
     - xorg-libxfixes  # [linux]
     - llvm
@@ -51,8 +49,6 @@ requirements:
   run:
     - python
     - future 
-    - vtk {{ vtk_version }}
-    - libitk {{ itk_version }}
     - llvm
     - joblib
     - numpy 
