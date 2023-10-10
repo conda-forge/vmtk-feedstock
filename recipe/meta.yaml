@@ -10,10 +10,10 @@ source:
   url: https://github.com/vmtk/vmtk/archive/30b0fdad5674d6f134e8a8b601bcef7917671b0a.zip
   sha256: e9f550c23c4413850cfecff92c483f27794e594bc30c55a5fa7a3960eb96d26c
   patches:
-    - 0001-OSX_CXX_Compatibility.patch
-    - 0002-vtkAddon-temp-fix.patch
-    - 0003-DisableJoblibOnOSX.patch  # [osx]
-    - 0004-Bugfixes.patch  
+    - patches/0001-OSX_CXX_Compatibility.patch
+    - patches/0002-temporary-patch-for-testing-changes-to-vtkAddon.patch
+    - patches/0003-Disable-joblib.patch  # [osx]
+    - patches/0004-Fix-test-fix-vmtkdistancetocenterlines-variables-ref.patch
 
 build:
   skip: true  # [py>310]
