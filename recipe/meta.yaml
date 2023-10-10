@@ -14,6 +14,9 @@ source:
     - patches/0002-temporary-patch-for-testing-changes-to-vtkAddon.patch
     - patches/0003-Disable-joblib.patch  # [osx]
     - patches/0004-Fix-test-fix-vmtkdistancetocenterlines-variables-ref.patch
+    # backport patch for compatibility with vtk 9.2, see
+    # https://github.com/vmtk/vmtk/commit/c46de512701a072a8f453a045ce575b94cd3ba19
+    - patches/0005-COMP-Fix-build-errors-with-VTK-9.2.patch
 
 build:
   skip: true  # [py>310]

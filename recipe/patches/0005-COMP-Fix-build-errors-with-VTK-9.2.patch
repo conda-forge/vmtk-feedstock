@@ -1,0 +1,175 @@
+From 960352236fc4eaaf501eadd2ae5db2493d33e81f Mon Sep 17 00:00:00 2001
+From: Andras Lasso <lasso@queensu.ca>
+Date: Tue, 4 Jul 2023 10:46:42 -0400
+Subject: [PATCH 5/5] COMP: Fix build errors with VTK-9.2
+
+Note: VTK_VMTK_BUILD_STREAMTRACER option is not available when using VTK-9.2 or above, as interpolated velocity fields were completely reworked in https://gitlab.kitware.com/vtk/vtk/-/commit/4659e29a49034760520540f004d0bf76a2b46a4b and VMTK's vtkvmtkStaticTemporalInterpolatedVelocityField class is not compatible anymore. An issue is created to fix this later: #457
+
+Co-authored-by: turtleizzy <agnimon@gmail.com>
+---
+ .gitignore                                          |  1 +
+ vtkVmtk/CMakeLists.txt                              | 10 ++++++++--
+ .../vtkvmtkPolyDataLineEmbedder.cxx                 |  2 +-
+ .../vtkvmtkSimplifyVoronoiDiagram.cxx               | 11 +++++++++++
+ vtkVmtk/Contrib/vtkvmtkBoundaryLayerGenerator2.cxx  |  2 +-
+ vtkVmtk/Contrib/vtkvmtkDolfinWriter2.cxx            |  2 +-
+ vtkVmtk/IO/vtkvmtkXdaWriter.cxx                     |  2 +-
+ vtkVmtk/Misc/CMakeLists.txt                         | 13 +++++++++----
+ 8 files changed, 33 insertions(+), 10 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index da3cc8b..d2ee779 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -6,3 +6,4 @@ __pycache__
+ .cache
+ .DS_Store
+ .vscode
++build*
+\ No newline at end of file
+diff --git a/vtkVmtk/CMakeLists.txt b/vtkVmtk/CMakeLists.txt
+index 556c9e1..6a27b04 100644
+--- a/vtkVmtk/CMakeLists.txt
++++ b/vtkVmtk/CMakeLists.txt
+@@ -35,11 +35,17 @@ include (${VMTK_SOURCE_DIR}/CMake/CMakeOptions.cmake)
+ configure_file(
+   ${VTK_VMTK_SOURCE_DIR}/vtkvmtkConfigure.h.in
+   ${VTK_VMTK_BINARY_DIR}/vtkvmtkConfigure.h
+-  )                                                                                                  
++  )
+ 
+ option(VTK_VMTK_BUILD_TETGEN "Build TetGen and TetGen wrapper. Check TetGen license before you activate this." ON)
+ 
+-option(VTK_VMTK_BUILD_STREAMTRACER "Build static temporal stream tracer." ON)
++set(_VTK_VMTK_BUILD_STREAMTRACER_DEFAULT ON)
++if(${VTK_VERSION} VERSION_GREATER_EQUAL "9.2")
++  # Interpolated velocity fields were completely reworked in VTK-9.2
++  # and VMTK is now incompatible.
++  set(_VTK_VMTK_BUILD_STREAMTRACER_DEFAULT OFF)
++endif()
++option(VTK_VMTK_BUILD_STREAMTRACER "Build static temporal stream tracer." _VTK_VMTK_BUILD_STREAMTRACER_DEFAULT)
+ 
+ if (VTK_USE_COCOA)
+   option(VTK_VMTK_USE_COCOA "Build the Cocoa vmtk classes." ON)
+diff --git a/vtkVmtk/ComputationalGeometry/vtkvmtkPolyDataLineEmbedder.cxx b/vtkVmtk/ComputationalGeometry/vtkvmtkPolyDataLineEmbedder.cxx
+index 8671bcb..2b2d9d1 100644
+--- a/vtkVmtk/ComputationalGeometry/vtkvmtkPolyDataLineEmbedder.cxx
++++ b/vtkVmtk/ComputationalGeometry/vtkvmtkPolyDataLineEmbedder.cxx
+@@ -74,7 +74,7 @@ vtkIdType vtkvmtkPolyDataLineEmbedder::GetCellId(vtkPolyData* input, vtkIdList*
+       }
+     else
+       {
+-      cellIds->IntersectWith(*neighborCellIds);
++      cellIds->IntersectWith(neighborCellIds);
+       }
+     }  
+ 
+diff --git a/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx b/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
+index f0e4b24..3ac28f0 100644
+--- a/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
++++ b/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
+@@ -195,7 +195,13 @@ int vtkvmtkSimplifyVoronoiDiagram::RequestData(
+   //   return 0;
+   //   }
+   poly->SetPolys(currentPolys);
++  
++#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0 && VTK_BUILD_VERSION >= 20221108)
++  currentLinks->SetDataSet(poly);
++  currentLinks->BuildLinks();
++#else
+   currentLinks->BuildLinks(poly);
++#endif
+ 
+   anyRemoved = true;
+   while (anyRemoved)
+@@ -290,7 +296,12 @@ int vtkvmtkSimplifyVoronoiDiagram::RequestData(
+     // #pragma message "vtkvmtkSimplifyVoronoiDiagram::RequestData not functional. Must be updated based on Kitware/VTK@88efc809a"
+     // vtkErrorMacro(<< "!");
+     poly->SetPolys(currentPolys);
++#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0 && VTK_BUILD_VERSION >= 20221108)
++    currentLinks->SetDataSet(poly);
++    currentLinks->BuildLinks();
++#else
+     currentLinks->BuildLinks(poly);
++#endif
+ 
+     newPolys->Delete();
+     newCell->Delete();
+diff --git a/vtkVmtk/Contrib/vtkvmtkBoundaryLayerGenerator2.cxx b/vtkVmtk/Contrib/vtkvmtkBoundaryLayerGenerator2.cxx
+index 4790869..16ac0d0 100644
+--- a/vtkVmtk/Contrib/vtkvmtkBoundaryLayerGenerator2.cxx
++++ b/vtkVmtk/Contrib/vtkvmtkBoundaryLayerGenerator2.cxx
+@@ -402,7 +402,7 @@ int vtkvmtkBoundaryLayerGenerator2::RequestData(
+                   {
+                   tetraPtsList->InsertNextId(tetraPts[l]);
+                   }
+-                tetraPtsList->IntersectWith(*openProfilePts);
++                tetraPtsList->IntersectWith(openProfilePts);
+                 //If this tetrahedra has a face on the extruded open profile, include it
+                 if (tetraPtsList->GetNumberOfIds() == 3)
+                   {
+diff --git a/vtkVmtk/Contrib/vtkvmtkDolfinWriter2.cxx b/vtkVmtk/Contrib/vtkvmtkDolfinWriter2.cxx
+index 3329166..81365a1 100644
+--- a/vtkVmtk/Contrib/vtkvmtkDolfinWriter2.cxx
++++ b/vtkVmtk/Contrib/vtkvmtkDolfinWriter2.cxx
+@@ -201,7 +201,7 @@ void vtkvmtkDolfinWriter2::WriteData()
+           vtkCell* face = cell->GetFace(k);
+           vtkIdList* matchingPointIds = vtkIdList::New();
+           matchingPointIds->DeepCopy(face->GetPointIds());
+-          matchingPointIds->IntersectWith(*faceCellPoints);
++          matchingPointIds->IntersectWith(faceCellPoints);
+           int numberOfNonMatching = face->GetNumberOfPoints() - matchingPointIds->GetNumberOfIds();
+           matchingPointIds->Delete();
+ 
+diff --git a/vtkVmtk/IO/vtkvmtkXdaWriter.cxx b/vtkVmtk/IO/vtkvmtkXdaWriter.cxx
+index 775ce4f..f4ae288 100644
+--- a/vtkVmtk/IO/vtkvmtkXdaWriter.cxx
++++ b/vtkVmtk/IO/vtkvmtkXdaWriter.cxx
+@@ -340,7 +340,7 @@ void vtkvmtkXdaWriter::WriteData()
+         vtkIdList* matchingPointIds = vtkIdList::New();
+         matchingPointIds->DeepCopy(face->GetPointIds());
+ 
+-        matchingPointIds->IntersectWith(*faceCellPoints);
++        matchingPointIds->IntersectWith(faceCellPoints);
+         
+         int numberOfNonMatching = face->GetNumberOfPoints() - matchingPointIds->GetNumberOfIds();
+ 
+diff --git a/vtkVmtk/Misc/CMakeLists.txt b/vtkVmtk/Misc/CMakeLists.txt
+index bd01886..5920668 100644
+--- a/vtkVmtk/Misc/CMakeLists.txt
++++ b/vtkVmtk/Misc/CMakeLists.txt
+@@ -55,8 +55,6 @@ set (VTK_VMTK_MISC_SRCS
+   vtkvmtkRBFInterpolation.cxx
+   vtkvmtkSimpleCapPolyData.cxx
+   vtkvmtkSmoothCapPolyData.cxx
+-  vtkvmtkStaticTemporalInterpolatedVelocityField.cxx
+-  vtkvmtkStaticTemporalStreamTracer.cxx
+   vtkvmtkStreamlineClusteringFilter.cxx
+   vtkvmtkStreamlineOsculatingCentersFilter.cxx
+   vtkvmtkStreamlineToParticlesFilter.cxx
+@@ -76,7 +74,7 @@ if (DEFINED VMTK_BUILD_TETGEN)
+ 
+     set (VTK_VMTK_MISC_TARGET_LINK_LIBRARIES ${VTK_VMTK_MISC_TARGET_LINK_LIBRARIES} tet)
+   endif ()
+-else () 
++else ()
+   if (VTK_VMTK_BUILD_TETGEN)
+     set (VTK_VMTK_MISC_SRCS ${VTK_VMTK_MISC_SRCS} vtkvmtkTetGenWrapper.cxx)
+ 
+@@ -89,8 +87,15 @@ else ()
+ endif ()
+ 
+ if (VTK_VMTK_BUILD_STREAMTRACER)
+-  set (VTK_VMTK_MISC_SRCS ${VTK_VMTK_MISC_SRCS} vtkvmtkStaticTemporalInterpolatedVelocityField.cxx vtkvmtkStaticTemporalStreamTracer.cxx)
++  if(${VTK_VERSION} VERSION_GREATER_EQUAL "9.2")
++    # Interpolated velocity fields were completely reworked in VTK-9.2
++    # (see https://gitlab.kitware.com/vtk/vtk/-/commit/4659e29a49034760520540f004d0bf76a2b46a4b).
++    # This refactoring broke VMTK's vtkvmtkStaticTemporalInterpolatedVelocityField class.
++    # Until VMTK is updated to use the new API, VTK_VMTK_BUILD_STREAMTRACER is not available anymore.
++    message(FATAL_ERROR "VTK_VMTK_BUILD_STREAMTRACER is not yet supported for VTK version 9.2 and above.")
++  endif()
+ 
++  set (VTK_VMTK_MISC_SRCS ${VTK_VMTK_MISC_SRCS} vtkvmtkStaticTemporalInterpolatedVelocityField.cxx vtkvmtkStaticTemporalStreamTracer.cxx)
+ endif ()
+ 
+ vmtk_build_library(
