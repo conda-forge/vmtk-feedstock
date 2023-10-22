@@ -37,7 +37,7 @@ requirements:
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake 
-    - boost      # [not win]
+    - libboost-python-devel      # [not win]
     - git
     - ninja
     - setuptools  
@@ -51,7 +51,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
-    - boost      # [not win]
+    - libboost-python-devel      # [not win]
   run:
     - python
     - future 
@@ -59,7 +59,7 @@ requirements:
     - joblib
     - numpy 
     - h5py
-    - boost      # [not win]
+    - libboost-python-devel      # [not win]
     
 
 
