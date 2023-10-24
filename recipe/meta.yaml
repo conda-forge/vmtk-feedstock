@@ -36,8 +36,7 @@ requirements:
     - {{ cdt('libxxf86vm') }}  # [linux]
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
-    - cmake 
-    - libboost-python-devel      # [not win]
+    - cmake
     - git
     - ninja
     - setuptools  
@@ -51,7 +50,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
-    - libboost-python-devel      # [not win]
+    - libboost-python-devel     # [unix]
   run:
     - python
     - future 
@@ -59,8 +58,6 @@ requirements:
     - joblib
     - numpy 
     - h5py
-    - libboost-python-devel      # [not win]
-    
 
 
 test:
