@@ -7,22 +7,22 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/vmtk/vmtk/archive/30b0fdad5674d6f134e8a8b601bcef7917671b0a.zip
-  sha256: e9f550c23c4413850cfecff92c483f27794e594bc30c55a5fa7a3960eb96d26c
+  url: https://github.com/vmtk/vmtk/archive/6211af00372d099454acaf5d90520ddfcdf6cf96.zip
+  sha256: f9e7156cc7df1b5b2906d7e3a39901b914608d49c2e257fa65a55caf84ee61d1
   patches:
     - patches/0001-OSX_CXX_Compatibility.patch
     - patches/0002-temporary-patch-for-testing-changes-to-vtkAddon.patch
     - patches/0003-Disable-joblib.patch  # [osx]
-    - patches/0004-Fix-test-fix-vmtkdistancetocenterlines-variables-ref.patch
+    - patches/0004-Fix-tests-for-new-vtk-version.patch
+    #- patches/0004-Fix-test-fix-vmtkdistancetocenterlines-variables-ref.patch
     # backport patch for compatibility with itk 5.3, see
     # https://github.com/vmtk/vmtk/commit/a0ed7931c458bf43795b895370fbe16f729e24f4
-    - patches/0005-COMP-Fix-build-error-in-itkAnisotropicDiffusionVesse.patch
+    #- patches/0005-COMP-Fix-build-error-in-itkAnisotropicDiffusionVesse.patch
     # backport patch for compatibility with vtk 9.2, see
     # https://github.com/vmtk/vmtk/commit/c46de512701a072a8f453a045ce575b94cd3ba19
-    - patches/0006-COMP-Fix-build-errors-with-VTK-9.2.patch
+    #- patches/0006-COMP-Fix-build-errors-with-VTK-9.2.patch
 
 build:
-  skip: true  # [py>310]
   number: 13
 
 requirements:
