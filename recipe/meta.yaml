@@ -16,7 +16,7 @@ source:
     - patches/0004-Fix-tests-for-new-vtk-version.patch
 
 build:
-  number: 13
+  number: 14
 
 requirements:
   build:
