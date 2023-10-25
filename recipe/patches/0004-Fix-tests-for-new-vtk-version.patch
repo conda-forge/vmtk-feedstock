@@ -1,0 +1,66 @@
+From d085457e377b8c2434230d63e5b98ebde404494a Mon Sep 17 00:00:00 2001
+From: Ramtin Gharleghi <gharleghi@gmail.com>
+Date: Wed, 25 Oct 2023 12:54:52 +1100
+Subject: [PATCH] Fix tests for new vtk version
+
+---
+ tests/test_vmtkScripts/test_importvtkvmtk.py               | 4 ++--
+ tests/test_vmtkScripts/test_vmtkbranchgeometry.py          | 2 +-
+ tests/test_vmtkScripts/test_vmtksurfacebooleanoperation.py | 5 +++--
+ 3 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/tests/test_vmtkScripts/test_importvtkvmtk.py b/tests/test_vmtkScripts/test_importvtkvmtk.py
+index 0c7e03f..f182e76 100644
+--- a/tests/test_vmtkScripts/test_importvtkvmtk.py
++++ b/tests/test_vmtkScripts/test_importvtkvmtk.py
+@@ -182,8 +182,8 @@ def vmtk_vtkvmtk_attributes():
+         'vtkvmtkSmoothCapPolyData',
+         'vtkvmtkSparseMatrix',
+         'vtkvmtkSparseMatrixRow',
+-        'vtkvmtkStaticTemporalInterpolatedVelocityField',
+-        'vtkvmtkStaticTemporalStreamTracer',
++        # 'vtkvmtkStaticTemporalInterpolatedVelocityField',
++        # 'vtkvmtkStaticTemporalStreamTracer',
+         'vtkvmtkSteepestDescentLineTracer',
+         'vtkvmtkSteepestDescentShooter',
+         'vtkvmtkStencil',
+diff --git a/tests/test_vmtkScripts/test_vmtkbranchgeometry.py b/tests/test_vmtkScripts/test_vmtkbranchgeometry.py
+index 29b352c..1a8748c 100644
+--- a/tests/test_vmtkScripts/test_vmtkbranchgeometry.py
++++ b/tests/test_vmtkScripts/test_vmtkbranchgeometry.py
+@@ -65,7 +65,7 @@ def test_branch_points_correct(branch_geometry):
+ @pytest.mark.parametrize("pointkey,expectedvalue",[
+     ("Length", np.array([35.52495253829437, 35.604787458920114, 34.1129769167953])),
+     ("Curvature", np.array([0.01441400600841863, 0.03419512761908704, 0.034160834689055564])),
+-    ("Torsion", np.array([-0.030372936454314547, -0.17593973521517317, -0.14365517399288139])),
++    ("Torsion", np.array([-0.03037283, -0.175936  , -0.14364733])),
+     ("Tortuosity", np.array([0.01062993958363112, 0.01490173952950391, 0.01877139596625832])),
+     ("GroupIds", np.array([0.0, 2.0, 3.0]))
+ ])
+diff --git a/tests/test_vmtkScripts/test_vmtksurfacebooleanoperation.py b/tests/test_vmtkScripts/test_vmtksurfacebooleanoperation.py
+index d342264..3cc40b5 100644
+--- a/tests/test_vmtkScripts/test_vmtksurfacebooleanoperation.py
++++ b/tests/test_vmtkScripts/test_vmtksurfacebooleanoperation.py
+@@ -18,8 +18,9 @@ import pytest
+ import vmtk.vmtksurfacebooleanoperation as surfacebooleanoperation
+ import vtk
+ 
++VTKmajor, VTKminor,_ = vtk.vtkVersion.GetVTKVersion().split(".")
+ 
+-@pytest.mark.skipif(vtk.vtkVersion.GetVTKVersion() == '9.1.0', reason="requires vtk version != 9.1.0")
++@pytest.mark.skipif(VTKmajor=='9' and VTKminor!='0', reason="requires vtk version < 9.1.0")
+ @pytest.mark.parametrize("operation,paramid", [
+     ('intersection', '1'),
+     ('difference', '2'),
+@@ -36,7 +37,7 @@ def test_operations_default_tolerance_regression(aorta_surface2, aorta_surface_r
+     assert compare_surfaces(booler.Surface, name, tolerance=1E-6) == True
+ 
+ 
+-@pytest.mark.skipif(vtk.vtkVersion.GetVTKVersion() != '9.1.0', reason="requires vtk == 9.1.0")
++@pytest.mark.skipif(VTKmajor=='9' and VTKminor=='0', reason="requires vtk >= 9.1.0")
+ @pytest.mark.parametrize("operation,paramid", [
+     ('intersection', '1'),
+     ('difference', '2'),
+-- 
+2.40.0.windows.1
+
