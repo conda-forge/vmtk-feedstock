@@ -1,0 +1,34 @@
+From a93c7c8047a4ab9919655301168d660b33616d8d Mon Sep 17 00:00:00 2001
+From: Ramtin Gharleghi <gharleghi@gmail.com>
+Date: Thu, 20 Jun 2024 20:07:42 +1000
+Subject: [PATCH] Fix build errors with new VTK
+
+---
+ .../ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx b/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
+index 3ac28f0..4ba992e 100644
+--- a/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
++++ b/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
+@@ -196,7 +196,7 @@ int vtkvmtkSimplifyVoronoiDiagram::RequestData(
+   //   }
+   poly->SetPolys(currentPolys);
+   
+-#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0 && VTK_BUILD_VERSION >= 20221108)
++#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0)
+   currentLinks->SetDataSet(poly);
+   currentLinks->BuildLinks();
+ #else
+@@ -296,7 +296,7 @@ int vtkvmtkSimplifyVoronoiDiagram::RequestData(
+     // #pragma message "vtkvmtkSimplifyVoronoiDiagram::RequestData not functional. Must be updated based on Kitware/VTK@88efc809a"
+     // vtkErrorMacro(<< "!");
+     poly->SetPolys(currentPolys);
+-#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0 && VTK_BUILD_VERSION >= 20221108)
++#if (VTK_MAJOR_VERSION >= 9 && VTK_MINOR_VERSION >= 0)
+     currentLinks->SetDataSet(poly);
+     currentLinks->BuildLinks();
+ #else
+-- 
+2.40.0.windows.1
+
