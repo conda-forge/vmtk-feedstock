@@ -45,7 +45,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
-    - libboost-python-devel ==1.85  # [unix]
+    - libboost-python-devel 1.85  # [unix]
   run:
     - python
     - future 

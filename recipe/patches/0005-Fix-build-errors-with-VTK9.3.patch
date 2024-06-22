@@ -1,11 +1,12 @@
-From a93c7c8047a4ab9919655301168d660b33616d8d Mon Sep 17 00:00:00 2001
+From 32a66f50a23d9e32ccedcf471943e32b188cb226 Mon Sep 17 00:00:00 2001
 From: Ramtin Gharleghi <gharleghi@gmail.com>
 Date: Thu, 20 Jun 2024 20:07:42 +1000
 Subject: [PATCH] Fix build errors with new VTK
 
 ---
- .../ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../vtkvmtkSimplifyVoronoiDiagram.cxx                 |  4 ++--
+ vtkVmtk/Contrib/vtkvmtkCellDimensionFilter.cxx        | 11 ++++++++---
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx b/vtkVmtk/ComputationalGeometry/vtkvmtkSimplifyVoronoiDiagram.cxx
 index 3ac28f0..4ba992e 100644
@@ -29,6 +30,36 @@ index 3ac28f0..4ba992e 100644
      currentLinks->SetDataSet(poly);
      currentLinks->BuildLinks();
  #else
+diff --git a/vtkVmtk/Contrib/vtkvmtkCellDimensionFilter.cxx b/vtkVmtk/Contrib/vtkvmtkCellDimensionFilter.cxx
+index 4e54cf3..8d38c1c 100644
+--- a/vtkVmtk/Contrib/vtkvmtkCellDimensionFilter.cxx
++++ b/vtkVmtk/Contrib/vtkvmtkCellDimensionFilter.cxx
+@@ -59,17 +59,22 @@ int vtkvmtkCellDimensionFilter::FillInputPortInformation(int, vtkInformation *in
+ 
+ void vtkvmtkCellDimensionFilter::ThresholdByLower(int lower)
+ {
+-  Threshold->ThresholdByLower(lower);
++  Threshold->SetLowerThreshold(lower);
++  Threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_LOWER);
++  
+ }
+ 
+ void vtkvmtkCellDimensionFilter::ThresholdByUpper(int upper)
+ {
+-  Threshold->ThresholdByUpper(upper);
++  Threshold->SetUpperThreshold(upper);
++  Threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+ }
+ 
+ void vtkvmtkCellDimensionFilter::ThresholdBetween(int lower, int upper)
+ {
+-  Threshold->ThresholdBetween(lower,upper);
++  Threshold->SetLowerThreshold(lower);
++  Threshold->SetUpperThreshold(upper);
++  Threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BETWEEN);
+ }
+ 
+ int vtkvmtkCellDimensionFilter::GetLowerThreshold()
 -- 
 2.40.0.windows.1
 
