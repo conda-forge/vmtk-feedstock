@@ -26,9 +26,6 @@ requirements:
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]
     - {{ cdt('libselinux') }}  # [linux]
-    - {{ cdt('libxdamage') }}  # [linux]
-    - {{ cdt('libxxf86vm') }}  # [linux]
-    - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
     - cmake
     - git
@@ -38,13 +35,15 @@ requirements:
   host:
     - python
     - vtk
-    - libitk
     - libitk-devel
     - tbb-devel
-    - xorg-libxfixes  # [linux]
     - llvm
-    - setuptools  # [win]
+    - setuptools                # [win]
     - libboost-python-devel     # [unix]
+    - xorg-libxdamage           # [linux]
+    - xorg-libxxf86vm           # [linux]
+    - xorg-libxext              # [linux]
+    - xorg-libxfixes            # [linux]
   run:
     - python
     - future 
@@ -69,7 +68,7 @@ test:
   commands:
     - python importtests.py
     - bash test.sh  # [not win]
-    - test.bat  # [win]
+    - test.bat      # [win]
 
 about:
   description: |
