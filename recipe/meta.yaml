@@ -16,11 +16,12 @@ source:
     - patches/0004-Fix-tests-for-new-vtk-version.patch
 
 build:
-  number: 14
+  number: 15
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]
@@ -37,7 +38,6 @@ requirements:
   host:
     - python
     - vtk
-    - libitk
     - libitk-devel
     - tbb-devel
     - xorg-libxfixes  # [linux]
@@ -47,11 +47,9 @@ requirements:
   run:
     - python
     - future 
-    - llvm
     - joblib
     - numpy 
     - h5py
-
 
 test:
   source_files:
