@@ -1,11 +1,15 @@
 c_compiler:
 - vs2019
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
 - vs2019
+libitk_devel:
+- '5.4'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -17,4 +21,4 @@ target_platform:
 tbb_devel:
 - '2021'
 vtk:
-- 9.2.6
+- 9.3.1
