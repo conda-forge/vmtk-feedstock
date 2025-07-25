@@ -30,7 +30,7 @@ requirements:
     - {{ cdt('libxxf86vm') }}  # [linux]
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
-    - cmake
+    - cmake <4
     - git
     - ninja
     - setuptools  
