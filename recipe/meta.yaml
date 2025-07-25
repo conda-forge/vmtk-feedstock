@@ -44,6 +44,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
+    - libboost-devel            # [unix]
     - libboost-python-devel     # [unix]
   run:
     - python
