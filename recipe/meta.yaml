@@ -14,13 +14,15 @@ source:
     - patches/0002-temporary-patch-for-testing-changes-to-vtkAddon.patch
     - patches/0003-Disable-joblib.patch  # [osx]
     - patches/0004-Fix-tests-for-new-vtk-version.patch
+    - patches/0005-Fix-build-errors-with-VTK9.3.patch
 
 build:
-  number: 14
+  number: 15
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]
@@ -43,7 +45,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
-    - libboost-python-devel     # [unix]
+    - libboost-python-devel 1.85  # [unix]
   run:
     - python
     - future 

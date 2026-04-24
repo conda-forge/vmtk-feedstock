@@ -1,5 +1,7 @@
 c_compiler:
 - vs2019
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
@@ -17,4 +19,4 @@ target_platform:
 tbb_devel:
 - '2021'
 vtk:
-- 9.2.6
+- 9.3.0
