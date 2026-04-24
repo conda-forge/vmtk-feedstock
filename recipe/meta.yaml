@@ -16,11 +16,12 @@ source:
     - patches/0004-Fix-tests-for-new-vtk-version.patch
 
 build:
-  number: 14
+  number: 15
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]
@@ -29,7 +30,7 @@ requirements:
     - {{ cdt('libxxf86vm') }}  # [linux]
     - {{ cdt('libxext') }}     # [linux]
     - pkgconfig  # [unix]
-    - cmake
+    - cmake <4
     - git
     - ninja
     - setuptools  
@@ -43,6 +44,7 @@ requirements:
     - xorg-libxfixes  # [linux]
     - llvm
     - setuptools  # [win]
+    - libboost-devel            # [unix]
     - libboost-python-devel     # [unix]
   run:
     - python
